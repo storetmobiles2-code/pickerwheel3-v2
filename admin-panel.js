@@ -2,7 +2,7 @@
 const AdminPanel = {
     isVisible: false,
     isAuthenticated: false,
-    adminPassword: 'myT2025Admin!', // Change this to your desired password
+    adminPassword: 'myTAdmin2025', // Change this to your desired password
     
     // Initialize admin panel
     init() {

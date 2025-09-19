@@ -1812,6 +1812,14 @@ body {
 
 /* Mobile Modal Adjustments */
 @media (max-width: 768px) {
+    /* Fix background gradient for mobile devices */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
     .modal {
         padding: 20px 15px;
         margin: 15px;
@@ -1864,6 +1872,14 @@ body {
 
 /* Extra small mobile screens */
 @media (max-width: 480px) {
+    /* Fix background gradient for mobile */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
     .container {
         padding: 10px;
         margin: 10px;
