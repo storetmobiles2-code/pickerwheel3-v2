@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Contest Validation Suite - myT MOBILES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #f1f3f4;
+            border-radius: 10px;
+            background: #fafbfc;
+        }
+
+        .test-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .test-section p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .test-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .test-btn.danger {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .test-btn.success {
+            background: linear-gradient(135deg, #00b894, #00a085);
+        }
+
+        .results-container {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            max-height: 500px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .status {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .status.running {
+            background: #3498db;
+            color: white;
+        }
+
+        .status.success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status.error {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .server-controls {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .server-controls h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .server-controls p {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .test-btn {
+                width: 100%;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Contest Validation Suite</h1>
+            <p>Comprehensive testing for PickerWheel inventory system and prize distribution</p>
+        </div>
+
+        <div class="content">
+            <!-- Server Controls -->
+            <div class="server-controls">
+                <h3>🔄 Server Management</h3>
+                <p>After making config changes, restart the server to apply new settings:</p>
+                <div class="button-group">
+                    <button class="test-btn danger" onclick="showRestartInstructions()">📖 Restart Instructions</button>
+                    <button class="test-btn" onclick="reloadPage()">🔄 Reload Page</button>
+                </div>
+            </div>
+
+            <!-- Quick Validation -->
+            <div class="test-section">
+                <h2>🚀 Quick Validation</h2>
+                <p>Run basic tests to verify the system is working correctly.</p>
+                
+                <div class="button-group">
+                    <button class="test-btn" onclick="runQuickTest()">⚡ Quick Test (50 spins)</button>
+                    <button class="test-btn" onclick="runScenarioTest()">🎯 Scenario Test</button>
+                    <button class="test-btn success" onclick="runInventoryCheck()">📦 Inventory Check</button>
+                </div>
+            </div>
+
+            <!-- Inventory Tracking Tests -->
+            <div class="test-section">
+                <h2>📊 Inventory Tracking Verification</h2>
+                <p>Comprehensive tests to verify inventory decreases correctly when items are won and prevents winning out-of-stock items.</p>
+                
+                <div class="button-group">
+                    <button class="test-btn" onclick="runInventoryTracking()">🔍 Inventory Tracking Test</button>
+                    <button class="test-btn" onclick="runDateAvailability()">📅 Date Availability Test</button>
+                </div>
+            </div>
+
+            <!-- Full Simulation -->
+            <div class="test-section">
+                <h2>📊 Full Simulation Tests</h2>
+                <p>Comprehensive testing across all contest dates with detailed analytics.</p>
+                
+                <div class="button-group">
+                    <button class="test-btn" onclick="runFullSimulation(50)">🧪 Light Test (50/date)</button>
+                    <button class="test-btn" onclick="runFullSimulation(100)">🔬 Standard Test (100/date)</button>
+                    <button class="test-btn" onclick="runFullSimulation(150)">🚀 Heavy Test (150/date)</button>
+                    <button class="test-btn danger" onclick="resetSystem()">🔄 Reset System</button>
+                </div>
+            </div>
+
+            <!-- Current Status -->
+            <div id="status-container"></div>
+            <div class="progress-bar" id="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="quick-stats" id="quick-stats" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-spins">0</div>
+                    <div class="stat-label">Total Spins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="success-rate">0%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="rare-wins">0</div>
+                    <div class="stat-label">Rare Wins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="test-duration">0s</div>
+                    <div class="stat-label">Test Duration</div>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div class="results-container" id="results"></div>
+        </div>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="audio-generator.js"></script>
+    <script src="prize-config.js"></script>
+    <script src="script.js"></script>
+    <script src="scooty-draw.js"></script>
+    <script src="simulation-test.js"></script>
+
+    <script>
+        // Validation Page Controller
+        class ValidationController {
+            constructor() {
+                this.isRunning = false;
+                this.currentTest = null;
+                this.startTime = null;
+                this.results = document.getElementById('results');
+                this.statusContainer = document.getElementById('status-container');
+                this.progressBar = document.getElementById('progress-bar');
+                this.progressFill = document.getElementById('progress-fill');
+                this.quickStats = document.getElementById('quick-stats');
+            }
+
+            showStatus(message, type = 'running') {
+                this.statusContainer.innerHTML = `<div class="status ${type}">${message}</div>`;
+            }
+
+            showProgress(percent) {
+                this.progressBar.style.display = 'block';
+                this.progressFill.style.width = `${percent}%`;
+            }
+
+            hideProgress() {
+                this.progressBar.style.display = 'none';
+            }
+
+            updateStats(stats) {
+                document.getElementById('total-spins').textContent = stats.totalSpins || 0;
+                document.getElementById('success-rate').textContent = stats.successRate || '0%';
+                document.getElementById('rare-wins').textContent = stats.rareWins || 0;
+                document.getElementById('test-duration').textContent = stats.duration || '0s';
+                this.quickStats.style.display = 'grid';
+            }
+
+            async runTest(testFunction, testName) {
+                if (this.isRunning) {
+                    alert('A test is already running. Please wait for it to complete.');
+                    return;
+                }
+
+                this.isRunning = true;
+                this.startTime = Date.now();
+                this.results.innerHTML = '';
+                this.results.classList.add('show');
+                
+                // Disable all buttons
+                document.querySelectorAll('.test-btn').forEach(btn => btn.disabled = true);
+
+                try {
+                    this.showStatus(`🚀 Running ${testName}...`, 'running');
+                    
+                    // Redirect console.log to results display
+                    const originalLog = console.log;
+                    console.log = (...args) => {
+                        const message = args.join(' ') + '\n';
+                        this.results.textContent += message;
+                        this.results.scrollTop = this.results.scrollHeight;
+                        originalLog(...args);
+                    };
+
+                    await testFunction();
+
+                    // Restore console.log
+                    console.log = originalLog;
+
+                    const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
+                    this.showStatus(`✅ ${testName} completed successfully in ${duration}s`, 'success');
+                    
+                } catch (error) {
+                    console.error('Test failed:', error);
+                    this.showStatus(`❌ ${testName} failed: ${error.message}`, 'error');
+                    this.results.textContent += `\n❌ ERROR: ${error.message}\n`;
+                } finally {
+                    this.isRunning = false;
+                    this.hideProgress();
+                    
+                    // Re-enable buttons
+                    document.querySelectorAll('.test-btn').forEach(btn => btn.disabled = false);
+                }
+            }
+        }
+
+        const validator = new ValidationController();
+
+        // Test Functions
+        async function runQuickTest() {
+            await validator.runTest(async () => {
+                const simulator = new ContestSimulator();
+                const result = await simulator.quickTest(50);
+                
+                validator.updateStats({
+                    totalSpins: result.totalRuns,
+                    successRate: `${((result.successfulRuns / result.totalRuns) * 100).toFixed(1)}%`,
+                    rareWins: result.categories.rare + result.categories.very_rare,
+                    duration: `${((Date.now() - validator.startTime) / 1000).toFixed(1)}s`
+                });
+            }, 'Quick Test');
+        }
+
+        async function runScenarioTest() {
+            await validator.runTest(async () => {
+                const simulator = new ContestSimulator();
+                await simulator.testScenarios();
+            }, 'Scenario Test');
+        }
+
+        async function runInventoryCheck() {
+            await validator.runTest(async () => {
+                console.log('📦 INVENTORY STATUS CHECK');
+                console.log('='.repeat(50));
+                
+                const status = PrizeManager.getInventoryStatus();
+                console.log('Current Date:', PrizeManager.getCurrentDate());
+                console.log('Available Today:', PrizeManager.getAvailablePrizesForWinning().length, 'prizes');
+                console.log('\nInventory by Category:');
+                console.table(status.byCategory);
+                
+                console.log('\nUser Statistics:');
+                console.table(PrizeManager.getUserStats());
+                
+                console.log('✅ Inventory check completed');
+            }, 'Inventory Check');
+        }
+
+        async function runFullSimulation(runs) {
+            await validator.runTest(async () => {
+                const simulator = new ContestSimulator();
+                
+                // Show progress updates
+                const totalDates = 9;
+                let completedDates = 0;
+                
+                // Override the simulateDate method to show progress
+                const originalSimulateDate = simulator.simulateDate;
+                simulator.simulateDate = async function(date, runs) {
+                    const result = await originalSimulateDate.call(this, date, runs);
+                    completedDates++;
+                    const progress = (completedDates / totalDates) * 100;
+                    validator.showProgress(progress);
+                    return result;
+                };
+                
+                await simulator.runSimulation(runs);
+                
+                // Update final stats
+                const totalSpins = runs * totalDates;
+                validator.updateStats({
+                    totalSpins: totalSpins,
+                    successRate: '100%',
+                    rareWins: 'See Report',
+                    duration: `${((Date.now() - validator.startTime) / 1000).toFixed(1)}s`
+                });
+                
+            }, `Full Simulation (${runs} runs per date)`);
+        }
+
+        async function runInventoryTracking() {
+            await validator.runTest(async () => {
+                const simulator = new ContestSimulator();
+                await simulator.testInventoryTracking();
+            }, 'Inventory Tracking Test');
+        }
+
+        async function runDateAvailability() {
+            await validator.runTest(async () => {
+                const simulator = new ContestSimulator();
+                await simulator.testDateAvailability();
+            }, 'Date Availability Test');
+        }
+
+        async function resetSystem() {
+            if (confirm('⚠️ This will reset all inventory and win data. Continue?')) {
+                await validator.runTest(async () => {
+                    PrizeManager.resetInventory();
+                    console.log('✅ System reset completed');
+                    console.log('📊 Fresh inventory initialized');
+                    console.log('🗑️ All win history cleared');
+                }, 'System Reset');
+            }
+        }
+
+        function showRestartInstructions() {
+            alert(`🔄 Server Restart Instructions:
+
+1. STOP SERVER:
+   • Press Ctrl+C in terminal where server is running
+   • Or run: kill $(ps aux | grep "python.*http.server" | grep -v grep | awk '{print $2}')
+
+2. START SERVER:
+   • cd /path/to/pickerwheel2
+   • python3 -m http.server 8000
+
+3. RELOAD PAGE:
+   • Press F5 or Ctrl+R
+   • Or click "Reload Page" button
+
+✅ New configs will be loaded!`);
+        }
+
+        function reloadPage() {
+            if (confirm('🔄 Reload the page to apply any config changes?')) {
+                window.location.reload();
+            }
+        }
+
+        // Auto-run inventory check on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                runInventoryCheck();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

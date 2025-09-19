@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>myT MOBILES - Spin & Win Contest | Win Yamaha Fascino!</title>
+    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6b6b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Spin&Win">
+</head>
+<body>
+    <!-- Background with animated elements -->
+    <div class="background-elements">
+        <div class="floating-element">🎯</div>
+        <div class="floating-element">⭐</div>
+        <div class="floating-element">🎁</div>
+        <div class="floating-element">🏆</div>
+        <div class="floating-element">💎</div>
+    </div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <!-- Logo Banner -->
+            <div class="logo-banner">
+                <img src="myt-mobiles-logo.png" alt="myT MOBILES" class="banner-logo-img">
+                <div class="banner-fallback">
+                    <span class="logo-text">myT MOBILES</span>
+                </div>
+            </div>
+            
+            <!-- Lucky Draw Promotion - Moved to Top -->
+            <div class="lucky-draw-promo">
+                <div class="lucky-draw-content">
+                    <span class="scooter-icon-neon">🛵</span>
+                    <div class="lucky-draw-text">
+                        <span class="main-message">Lucky Draw: Get a chance to Win Yamaha Fascino</span>
+                        <span class="terms-text">*Terms and conditions apply</span>
+                    </div>
+                    <span class="sparkle-icon">✨</span>
+                </div>
+            </div>
+            
+            <!-- Top navigation bar -->
+            <div class="top-nav">
+                
+                <!-- Celebration Controls in top-right -->
+                <div class="controls">
+                    <button class="control-btn" id="soundToggle" title="Toggle Sound Effects">
+                        <span class="sound-icon">🔊</span>
+                        <span class="control-text">Sound ON</span>
+                    </button>
+                    <button class="control-btn" id="celebrationToggle" title="Toggle Celebration Effects">
+                        <span class="celebration-icon">🎉</span>
+                        <span class="control-text">Effects ON</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main title section -->
+            <h1 class="title">myT MOBILES</h1>
+            <p class="subtitle">Cyber Spin & Win Contest 🏆</p>
+            <p class="subtitle">Spin the wheel and win amazing prizes from myT MOBILES!</p>
+        </header>
+        
+        <!-- Wheel Section -->
+        <div class="wheel-container">
+            <!-- Wheel pointer -->
+            <div class="wheel-pointer">▼</div>
+            
+            <!-- Prize Wheel -->
+            <div class="wheel" id="wheel">
+                <div class="wheel-inner">
+                    <!-- Prize segments will be dynamically generated -->
+                </div>
+            </div>
+            
+            <!-- Spin Button -->
+            <button class="spin-btn" id="spinBtn">
+                <span class="btn-text">SPIN</span>
+                <span class="btn-icon">🎯</span>
+            </button>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <p>🎯 Click the SPIN button to try your luck!</p>
+            <p>🏆 Win exciting prizes with every spin!</p>
+        </div>
+        
+        <!-- Scooter Lucky Draw Section -->
+        <div class="scoody-section" id="scoodySection">
+            <div class="scoody-promo-banner">
+                <span class="banner-text">🎉 Special Bumper Prize from myT MOBILES! Don't Miss Out! 🎉</span>
+            </div>
+            
+            <div class="scoody-draw-container">
+                <div class="scoody-box bounce-animation" id="scoodyBox">
+                    <div class="scoody-badge">BUMPER PRIZE</div>
+                    <div class="scoody-icon">
+                        <img src="red-scooter.png" alt="Yamaha Fascino" class="scooter-image">
+                    </div>
+                    <div class="scoody-title">Win Yamaha Fascino!</div>
+                    <div class="scoody-subtitle">Enter Lucky Draw</div>
+                    <div class="hover-message" id="hoverMessage">Click to enter the Scooter Lucky Draw!</div>
+                    <div class="countdown-timer" id="countdownTimer">
+                        <div class="timer-label">Time Left:</div>
+                        <div class="timer-display" id="timerDisplay">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scoody Lucky Draw Modal -->
+    <div class="scoody-modal-overlay" id="scoodyModalOverlay">
+        <div class="scoody-modal">
+            <div class="scoody-modal-header">
+                <h2>🏆 Lucky Draw 🏆</h2>
+                <button class="close-btn" id="scoodyCloseBtn">&times;</button>
+            </div>
+            <div class="scoody-modal-body">
+                <div class="scoody-prize-display">
+                    <div class="scoody-large-icon">
+                        🛵
+                    </div>
+                    <h3>Lucky Draw</h3>
+                    <p class="draw-description">Get a chance to Win Yamaha Fascino</p>
+                    <p class="terms-text">*Terms and conditions apply</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Prize Popup Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>🎉 Congratulations! 🎉</h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="prize-display">
+                    <img class="prize-icon" id="prizeEmoji" src="" alt="Prize" style="display: none;">
+                    <div class="prize-emoji-fallback" style="display: block;">🎁</div>
+                    <div class="prize-name" id="prizeName">Loading...</div>
+                    <div class="prize-category" id="prizeCategory"></div>
+                </div>
+                <div class="celebration-text">
+                    <p>You've won an amazing prize!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="claim-btn">Claim Prize</button>
+                <button class="spin-again-btn" id="spinAgainBtn">Spin Again</button>
+            </div>
+            
+            <!-- Cross-promotion for Scooter Lucky Draw -->
+            <div class="scoody-cross-promo" id="scoodyPromo">
+                <div class="promo-content">
+                    <div class="promo-icon">🛵✨</div>
+                    <div class="promo-text">
+                        <strong>Don't Miss Out!</strong><br>
+                        Enter the Scooter Lucky Draw for a chance to win the ultimate prize!
+                    </div>
+                    <button class="promo-btn" id="promoEnterBtn">Enter Scooty Draw!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading overlay for spinning -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Spinning the wheel...</p>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="copyright">
+                <p>&copy; 2025 myT MOBILES Spin & Win Contest | Good Luck! 🍀</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Audio Elements for Custom Celebration Sounds -->
+    <audio id="winSound" preload="auto">
+        <source src="win-sound.mp3" type="audio/mpeg">
+        <source src="win-sound.wav" type="audio/wav">
+        <source src="win-sound.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="rareWinSound" preload="auto">
+        <source src="rare-win-sound.mp3" type="audio/mpeg">
+        <source src="rare-win-sound.wav" type="audio/wav">
+        <source src="rare-win-sound.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="celebrationSound" preload="auto">
+        <source src="celebration-sound.mp3" type="audio/mpeg">
+        <source src="celebration-sound.wav" type="audio/wav">
+        <source src="celebration-sound.ogg" type="audio/ogg">
+    </audio>
+    
+    <audio id="spinSound" preload="auto">
+        <source src="spin-sound.mp3" type="audio/mpeg">
+        <source src="spin-sound.wav" type="audio/wav">
+        <source src="spin-sound.ogg" type="audio/ogg">
+    </audio>
+    
+    <!-- Scripts -->
+    <script src="audio-generator.js?v=2.0"></script>
+    <script src="prize-config.js?v=2.0"></script>
+    <script src="admin-panel.js?v=2.0"></script>
+    <script src="verification-demo.js?v=2.0"></script>
+    <script src="quantity-vs-date-test.js?v=2.0"></script>
+    <script src="per-date-inventory-test.js?v=2.0"></script>
+    <script src="script.js?v=2.0"></script>
+    <link rel="stylesheet" href="admin-styles.css?v=2.0">
+    <script src="simulation-test.js?v=2.0"></script>
+    <script src="test-github-pages.js?v=2.0"></script>
+</body>
+</html>
